@@ -1,6 +1,6 @@
 
 <h1>English OCR</h1>
-<h2>inference</h2>
+<h2>Inference</h2>
 <img src="assets/result.jpg" alt="">
 
 <h3>Speed run:</h3>
