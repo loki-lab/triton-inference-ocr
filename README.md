@@ -4,7 +4,7 @@
 <img src="assets/result.jpg" alt="">
 
 <h3>Speed run:</h3>
-- Python: Total time is 5.8632312s
+- Python: Total time is 5.8632312s <br>
 - Triton inference server: Total time is 2.9771485s
 
 
