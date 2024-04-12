@@ -1,3 +1,4 @@
 gradio
 tritonclient[all]
 numpy
+opencv-python

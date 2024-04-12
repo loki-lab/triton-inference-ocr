@@ -1,5 +1,5 @@
 FROM nvcr.io/nvidia/tritonserver:22.07-py3
-
+LABEL authors="loke"
 
 # Prepare environment
 WORKDIR /srv

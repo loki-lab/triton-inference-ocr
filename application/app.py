@@ -8,7 +8,7 @@ class Application:
         self.client = client
 
     def run(self):
-        app = self.interface(self.client.inference, inputs=["image"], outputs=["text", "text"])
+        app = self.interface(self.client.inference, inputs=["image"], outputs=["image", "text"])
         app.launch()
 
 
