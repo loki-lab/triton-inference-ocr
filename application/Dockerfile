@@ -1,8 +1,13 @@
 FROM python:3.9
 LABEL authors="loke"
 
-WORKDIR /srv
-ADD ./requirements.txt ./requirements.txt
+WORKDIR .
+
+COPY . .
+
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+
+
 RUN pip install -r requirements.txt
 
 

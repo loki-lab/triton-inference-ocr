@@ -1,4 +1,5 @@
 gradio
 tritonclient[all]
 numpy
-opencv-python
+opencv-python==3.4.18.65
+fastdeploy-python -f https://www.paddlepaddle.org.cn/whl/fastdeploy.html

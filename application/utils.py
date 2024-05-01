@@ -26,3 +26,4 @@ def draw_img(image, list_points):
         image = draw_lines(image, pts)
 
     return image
+
