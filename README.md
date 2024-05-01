@@ -5,7 +5,7 @@
 
 <h3>Speed run:</h3>
 - Python: Total time is 5.8632312s <br>
-- Triton inference server: Total time is Total time is 1.4852415s
+- Triton inference server: Total time is 1.4852415s
 
 
 <h2>Triton inference server</h2>
