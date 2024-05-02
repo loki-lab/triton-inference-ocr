@@ -67,7 +67,7 @@ class Application:
 
 if __name__ == "__main__":
     url1 = "34.125.26.33:8000"
-    url2 = "35.232.59.154:8000"
+    url2 = "34.66.163.162:8000"
 
     infer1 = Client(url1)
     infer2 = Client(url2)
