@@ -62,7 +62,7 @@ class Application:
                         im = self.gr.ImageEditor(type="numpy", image_mode="RGB")
                         self.gr.Interface(self.inference_form2, inputs=im, outputs=["text", plot])
 
-        app.launch()
+        app.launch(server_port=8000, debug=True, share=True)
 
 
 if __name__ == "__main__":
