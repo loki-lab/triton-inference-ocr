@@ -1,5 +1,6 @@
 gradio
 tritonclient[all]
+pandas
 numpy
 opencv-python==3.4.18.65
 fastdeploy-python -f https://www.paddlepaddle.org.cn/whl/fastdeploy.html
