@@ -1,6 +1,5 @@
 import tritonclient.http as httpclient
 import numpy as np
-
 from utils import draw_img
 
 

@@ -14,7 +14,6 @@
 
 import json
 import os
-
 import numpy as np
 import fastdeploy as fd
 
