@@ -14,8 +14,9 @@
 
 import json
 import os
-import numpy as np
+
 import fastdeploy as fd
+import numpy as np
 import triton_python_backend_utils as pb_utils
 
 # triton_python_backend_utils is available in every Triton Python model. You
