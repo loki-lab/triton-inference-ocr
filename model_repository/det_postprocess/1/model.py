@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import cv2
 import json
+import cv2
 import numpy as np
 import fastdeploy as fd
 import triton_python_backend_utils as pb_utils
