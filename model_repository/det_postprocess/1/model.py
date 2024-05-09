@@ -12,16 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import json
 import cv2
-import numpy as np
+import json
 import fastdeploy as fd
+import numpy as np
+import triton_python_backend_utils as pb_utils
+
 
 # triton_python_backend_utils is available in every Triton Python model. You
 # need to use this module to create inference requests and responses. It also
 # contains some utility functions for extracting information from model_config
 # and converting Triton input/output types to numpy types.
-import triton_python_backend_utils as pb_utils
 
 
 def get_rotate_crop_image(img, box):
@@ -102,7 +103,6 @@ class TritonPythonModel:
         print("postprocess output names:", self.output_names)
         self.postprocessor = fd.vision.ocr.DBDetectorPostprocessor()
         self.rec_preprocessor = fd.vision.ocr.RecognizerPreprocessor()
-
 
     def execute(self, requests):
         """`execute` must be implemented in every Python model. `execute`
