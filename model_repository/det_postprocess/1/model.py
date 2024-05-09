@@ -25,7 +25,7 @@ import triton_python_backend_utils as pb_utils
 
 
 def get_rotate_crop_image(img, box):
-    '''
+    """
     img_height, img_width = img.shape[0:2]
     left = int(np.min(points[:, 0]))
     right = int(np.max(points[:, 0]))
@@ -34,30 +34,18 @@ def get_rotate_crop_image(img, box):
     img_crop = img[top:bottom, left:right, :].copy()
     points[:, 0] = points[:, 0] - left
     points[:, 1] = points[:, 1] - top
-    '''
+    """
     points = []
     for i in range(4):
         points.append([box[2 * i], box[2 * i + 1]])
     points = np.array(points, dtype=np.float32)
     img = img.astype(np.float32)
     assert len(points) == 4, "shape of points must be 4*2"
-    img_crop_width = int(
-        max(
-            np.linalg.norm(points[0] - points[1]),
-            np.linalg.norm(points[2] - points[3])))
-    img_crop_height = int(
-        max(
-            np.linalg.norm(points[0] - points[3]),
-            np.linalg.norm(points[1] - points[2])))
-    pts_std = np.float32([[0, 0], [img_crop_width, 0],
-                          [img_crop_width, img_crop_height],
-                          [0, img_crop_height]])
+    img_crop_width = int(max(np.linalg.norm(points[0] - points[1]), np.linalg.norm(points[2] - points[3])))
+    img_crop_height = int(max(np.linalg.norm(points[0] - points[3]), np.linalg.norm(points[1] - points[2])))
+    pts_std = np.float32([[0, 0], [img_crop_width, 0], [img_crop_width, img_crop_height], [0, img_crop_height]])
     M = cv2.getPerspectiveTransform(points, pts_std)
-    dst_img = cv2.warpPerspective(
-        img,
-        M, (img_crop_width, img_crop_height),
-        borderMode=cv2.BORDER_REPLICATE,
-        flags=cv2.INTER_CUBIC)
+    dst_img = cv2.warpPerspective(img, M, (img_crop_width, img_crop_height), borderMode=cv2.BORDER_REPLICATE, flags=cv2.INTER_CUBIC)
     dst_img_height, dst_img_width = dst_img.shape[0:2]
     if dst_img_height * 1.0 / dst_img_width >= 1.5:
         dst_img = np.rot90(dst_img)
@@ -85,7 +73,7 @@ class TritonPythonModel:
           * model_name: Model name
         """
         # You must parse model_config. JSON string is not parsed here
-        self.model_config = json.loads(args['model_config'])
+        self.model_config = json.loads(args["model_config"])
         print("model_config:", self.model_config)
 
         self.input_names = []
@@ -124,12 +112,9 @@ class TritonPythonModel:
         """
         responses = []
         for request in requests:
-            infer_outputs = pb_utils.get_input_tensor_by_name(
-                request, self.input_names[0])
-            im_infos = pb_utils.get_input_tensor_by_name(request,
-                                                         self.input_names[1])
-            ori_imgs = pb_utils.get_input_tensor_by_name(request,
-                                                         self.input_names[2])
+            infer_outputs = pb_utils.get_input_tensor_by_name(request, self.input_names[0])
+            im_infos = pb_utils.get_input_tensor_by_name(request, self.input_names[1])
+            ori_imgs = pb_utils.get_input_tensor_by_name(request, self.input_names[2])
 
             infer_outputs = infer_outputs.as_numpy()
             im_infos = im_infos.as_numpy()
@@ -140,7 +125,6 @@ class TritonPythonModel:
             batch_rec_scores = []
             batch_box_list = []
             for i_batch in range(len(results)):
-
                 rec_texts = []
                 rec_scores = []
 
@@ -150,48 +134,36 @@ class TritonPythonModel:
                     image_list.append(ori_imgs[i_batch])
                 else:
                     for box in box_list:
-                        crop_img = get_rotate_crop_image(ori_imgs[i_batch],
-                                                         box)
+                        crop_img = get_rotate_crop_image(ori_imgs[i_batch], box)
                         image_list.append(crop_img)
 
                 batch_box_list.append(box_list)
 
                 rec_pre_tensors = self.rec_preprocessor.run(image_list)
                 rec_dlpack_tensor = rec_pre_tensors[0].to_dlpack()
-                rec_input_tensor = pb_utils.Tensor.from_dlpack(
-                    "x", rec_dlpack_tensor)
+                rec_input_tensor = pb_utils.Tensor.from_dlpack("x", rec_dlpack_tensor)
 
                 inference_request = pb_utils.InferenceRequest(
-                    model_name='rec_pp',
-                    requested_output_names=['rec_texts', 'rec_scores'],
-                    inputs=[rec_input_tensor])
+                    model_name="rec_pp", requested_output_names=["rec_texts", "rec_scores"], inputs=[rec_input_tensor]
+                )
                 inference_response = inference_request.exec()
                 if inference_response.has_error():
-                    raise pb_utils.TritonModelException(
-                        inference_response.error().message())
+                    raise pb_utils.TritonModelException(inference_response.error().message())
                 else:
                     # Extract the output tensors from the inference response.
-                    rec_texts = pb_utils.get_output_tensor_by_name(
-                        inference_response, 'rec_texts')
+                    rec_texts = pb_utils.get_output_tensor_by_name(inference_response, "rec_texts")
                     rec_texts = rec_texts.as_numpy()
 
-                    rec_scores = pb_utils.get_output_tensor_by_name(
-                        inference_response, 'rec_scores')
+                    rec_scores = pb_utils.get_output_tensor_by_name(inference_response, "rec_scores")
                     rec_scores = rec_scores.as_numpy()
 
                     batch_rec_texts.append(rec_texts)
                     batch_rec_scores.append(rec_scores)
 
-            out_tensor_0 = pb_utils.Tensor(
-                self.output_names[0],
-                np.array(
-                    batch_rec_texts, dtype=np.object_))
-            out_tensor_1 = pb_utils.Tensor(self.output_names[1],
-                                           np.array(batch_rec_scores))
-            out_tensor_2 = pb_utils.Tensor(self.output_names[2],
-                                           np.array(batch_box_list))
-            inference_response = pb_utils.InferenceResponse(
-                output_tensors=[out_tensor_0, out_tensor_1, out_tensor_2])
+            out_tensor_0 = pb_utils.Tensor(self.output_names[0], np.array(batch_rec_texts, dtype=np.object_))
+            out_tensor_1 = pb_utils.Tensor(self.output_names[1], np.array(batch_rec_scores))
+            out_tensor_2 = pb_utils.Tensor(self.output_names[2], np.array(batch_box_list))
+            inference_response = pb_utils.InferenceResponse(output_tensors=[out_tensor_0, out_tensor_1, out_tensor_2])
             responses.append(inference_response)
         return responses
 
@@ -200,4 +172,4 @@ class TritonPythonModel:
         Implementing `finalize` function is optional. This function allows
         the model to perform any necessary clean ups before exit.
         """
-        print('Cleaning up...')
+        print("Cleaning up...")

@@ -48,8 +48,7 @@ class Application:
             with self.gr.Blocks():
                 with gr.Tab("English"):
                     with gr.Tab("English Detection"):
-                        self.gr.Interface(self.inference_form3, inputs=["image"],
-                                          outputs=["image", "text", plot])
+                        self.gr.Interface(self.inference_form3, inputs=["image"], outputs=["image", "text", plot])
 
                     with gr.Tab("Process image"):
                         im = self.gr.ImageEditor(type="numpy", image_mode="RGB")
@@ -57,8 +56,7 @@ class Application:
 
                 with gr.Tab("Japanese"):
                     with gr.Tab("Japanese Detection"):
-                        self.gr.Interface(self.inference_form4, inputs=["image"],
-                                          outputs=["image", "text", plot])
+                        self.gr.Interface(self.inference_form4, inputs=["image"], outputs=["image", "text", plot])
                     with gr.Tab("Process image"):
                         im = self.gr.ImageEditor(type="numpy", image_mode="RGB")
                         self.gr.Interface(self.inference_form2, inputs=im, outputs=["text", plot])

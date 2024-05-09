@@ -20,9 +20,9 @@ class Client:
         rec_score = httpclient.InferRequestedOutput("rec_scores", binary_data=False)
 
         results = client.infer(model_name="pp_ocr", inputs=[inputs], outputs=[outputs, bbox_outputs, rec_score])
-        inference_texts = results.as_numpy('rec_texts')
-        inference_bboxes = results.as_numpy('det_bboxes')
-        inference_rec_scores = results.as_numpy('rec_scores')
+        inference_texts = results.as_numpy("rec_texts")
+        inference_bboxes = results.as_numpy("det_bboxes")
+        inference_rec_scores = results.as_numpy("rec_scores")
         img = draw_img(img[0], list_points=list(inference_bboxes[0]))
 
         return img, list(inference_texts[0]), inference_rec_scores
@@ -38,6 +38,6 @@ class Client:
         outputs = httpclient.InferRequestedOutput("rec_texts", binary_data=False)
 
         results = client.infer(model_name="rec_pp", inputs=[inputs], outputs=[outputs])
-        inference_texts = results.as_numpy('rec_texts')
+        inference_texts = results.as_numpy("rec_texts")
 
         return img_crop, list(inference_texts[0])
