@@ -1,7 +1,7 @@
-from client import Client
 import gradio as gr
 import numpy as np
 import pandas as pd
+from client import Client
 
 
 plot = gr.BarPlot(x="text", y="score", vertical=False)
