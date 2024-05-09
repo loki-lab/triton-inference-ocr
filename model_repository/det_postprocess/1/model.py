@@ -14,8 +14,6 @@
 
 import json
 import numpy as np
-import time
-import math
 import cv2
 import fastdeploy as fd
 
