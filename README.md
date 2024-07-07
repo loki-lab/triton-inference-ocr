@@ -12,7 +12,7 @@
 - Triton inference server: Total time is 1.4852415s
 
 <h3>System Inference</h3>
-<img src="assets/system.png" alt="">
+<img src="assets/System.png" alt="">
 
 <h3>UX/UI</h3>
 
