@@ -11,6 +11,8 @@
 - Python: Total time is 5.8632312s <br>
 - Triton inference server: Total time is 1.4852415s
 
+<h3>UX/UI</h3>
+
 
 <h2>Triton inference server</h2>
 <img src="assets/dalitriton.jpg" alt="">
