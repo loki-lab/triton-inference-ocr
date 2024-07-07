@@ -5,7 +5,7 @@
 
 <h1>Japanese OCR</h1>
 <h2>Inference</h2>
-<img src="assets/result.jpg" alt="">
+<img src="assets/image_2024_04_24T11_20_52_194Z.png" alt="">
 
 <h3>Speed run:</h3>
 - Python: Total time is 5.8632312s <br>
