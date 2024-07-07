@@ -14,8 +14,6 @@
 <h3>System Inference</h3>
 <img src="assets/System.png" alt="">
 
-<h3>UX/UI</h3>
-
 
 <h2>Triton inference server</h2>
 <img src="assets/dalitriton.jpg" alt="">
