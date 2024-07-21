@@ -15,7 +15,4 @@
 <img src="assets/System.png" alt="">
 
 
-<h2>Triton inference server</h2>
-<img src="assets/dalitriton.jpg" alt="">
-
 
